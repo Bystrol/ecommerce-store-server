@@ -13,7 +13,7 @@ const DB_URI = process.env.DB_URI || ""
 app.use(cors())
 app.use(express.json())
 
-app.use(authRoutes)
+app.use("/auth", authRoutes)
 
 mongoose
   .connect(DB_URI)
