@@ -1,11 +1,11 @@
 import { Router } from "express"
-import { registerUser } from "../controllers/authControllers"
+import { registerUser, loginUser } from "../controllers/authControllers"
 import { body } from "express-validator"
 
 const router = Router()
 
 router.post(
-  "/auth/register",
+  "/register",
   [
     body("username")
       .trim()
@@ -24,5 +24,7 @@ router.post(
   ],
   registerUser
 )
+
+router.post("/login", loginUser)
 
 export default router
