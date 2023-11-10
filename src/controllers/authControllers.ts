@@ -65,7 +65,7 @@ export const loginUser = async (req: Request, res: Response) => {
         email,
         password,
       },
-      "JWT_SECRET",
+      `${process.env.JWT_SECRET_KEY}`,
       { expiresIn: "1h" }
     )
 
@@ -85,13 +85,51 @@ export const checkUserAuth = (req: Request, res: Response) => {
   const authToken = authorizationHeader.split(" ")[1]
 
   try {
-    jwt.verify(authToken, "JWT_SECRET", function (err) {
+    jwt.verify(authToken, `${process.env.JWT_SECRET_KEY}`, function (err) {
       if (err) {
         return res.status(401).json({ message: err.message })
       } else {
         return res.status(200).json({ message: "User is authenticated" })
       }
     })
+  } catch (error) {
+    console.log(error)
+    throw new Error("Something went wrong")
+  }
+}
+
+export const checkUserPermission = async (req: Request, res: Response) => {
+  const authorizationHeader = req.headers.authorization || ""
+  const authToken = authorizationHeader.split(" ")[1]
+
+  try {
+    let email
+
+    jwt.verify(authToken, `${process.env.JWT_SECRET_KEY}`, (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ message: err.message })
+      } else {
+        email = (decoded as jwt.JwtPayload).email
+      }
+    })
+
+    const user = await User.findOne({ email })
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "User with this email doesn't exist" })
+    }
+
+    if (user.role !== "admin") {
+      return res
+        .status(403)
+        .json({ message: "You don't have permission to access this page" })
+    }
+
+    return res
+      .status(200)
+      .json({ message: "User is authorized to access this page" })
   } catch (error) {
     console.log(error)
     throw new Error("Something went wrong")
