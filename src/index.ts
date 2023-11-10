@@ -3,6 +3,7 @@ import mongoose from "mongoose"
 import dotenv from "dotenv"
 import cors from "cors"
 import authRoutes from "./routes/authRoutes"
+import productRoutes from "./routes/productRoutes"
 
 dotenv.config()
 
@@ -14,6 +15,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use("/auth", authRoutes)
+app.use("/products", productRoutes)
 
 mongoose
   .connect(DB_URI)
