@@ -3,7 +3,7 @@ import {
   registerUser,
   loginUser,
   checkUserAuth,
-  checkUserPermission,
+  checkUserRole,
 } from "../controllers/authControllers"
 import { body } from "express-validator"
 
@@ -30,10 +30,14 @@ router.post(
   registerUser
 )
 
-router.post("/login", loginUser)
+router.post(
+  "/login",
+  [body("email").trim().notEmpty(), body("password").trim().notEmpty()],
+  loginUser
+)
 
 router.get("/check-auth", checkUserAuth)
 
-router.get("/check-role", checkUserPermission)
+router.get("/check-role", checkUserRole)
 
 export default router
