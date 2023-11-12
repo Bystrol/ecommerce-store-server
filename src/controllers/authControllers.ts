@@ -63,9 +63,8 @@ export const loginUser = async (req: Request, res: Response) => {
     const authToken = jwt.sign(
       {
         email,
-        password,
       },
-      `${process.env.JWT_SECRET_KEY}`,
+      `${process.env.AUTH_TOKEN_SECRET}`,
       { expiresIn: "1h" }
     )
 
@@ -85,7 +84,7 @@ export const checkUserAuth = (req: Request, res: Response) => {
   const authToken = authorizationHeader.split(" ")[1]
 
   try {
-    jwt.verify(authToken, `${process.env.JWT_SECRET_KEY}`, function (err) {
+    jwt.verify(authToken, `${process.env.AUTH_TOKEN_SECRET}`, function (err) {
       if (err) {
         return res.status(401).json({ message: err.message })
       } else {
@@ -98,20 +97,24 @@ export const checkUserAuth = (req: Request, res: Response) => {
   }
 }
 
-export const checkUserPermission = async (req: Request, res: Response) => {
+export const checkUserRole = async (req: Request, res: Response) => {
   const authorizationHeader = req.headers.authorization || ""
   const authToken = authorizationHeader.split(" ")[1]
 
   try {
     let email
 
-    jwt.verify(authToken, `${process.env.JWT_SECRET_KEY}`, (err, decoded) => {
-      if (err) {
-        return res.status(401).json({ message: err.message })
-      } else {
-        email = (decoded as jwt.JwtPayload).email
+    jwt.verify(
+      authToken,
+      `${process.env.AUTH_TOKEN_SECRET}`,
+      (err, decoded) => {
+        if (err) {
+          return res.status(401).json({ message: err.message })
+        } else {
+          email = (decoded as jwt.JwtPayload).email
+        }
       }
-    })
+    )
 
     const user = await User.findOne({ email })
 
