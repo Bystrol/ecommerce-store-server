@@ -17,10 +17,6 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  cart: {
-    type: Array,
-    ref: "Product",
-  },
 })
 
 export default model("User", userSchema)

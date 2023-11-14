@@ -30,7 +30,6 @@ export const registerUser = async (req: Request, res: Response) => {
       email,
       password: hashedPassword,
       role: "user",
-      cart: [],
     })
 
     await user.save()
