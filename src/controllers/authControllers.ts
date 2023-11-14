@@ -1,4 +1,4 @@
-import { Request, Response } from "express"
+import { Request, Response, NextFunction } from "express"
 import { validationResult } from "express-validator"
 import User from "../models/user"
 import bcrypt from "bcrypt"
@@ -103,7 +103,11 @@ export const checkUserAuth = (req: Request, res: Response) => {
   }
 }
 
-export const checkUserRole = async (req: Request, res: Response) => {
+export const checkUserRole = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const authorizationHeader = req.headers.authorization || ""
   const authToken = authorizationHeader.split(" ")[1]
 
@@ -115,7 +119,7 @@ export const checkUserRole = async (req: Request, res: Response) => {
       `${process.env.AUTH_TOKEN_SECRET}`,
       (err, decoded) => {
         if (err) {
-          return res.status(401).json({ message: err.message })
+          throw new Error(err.message)
         } else {
           email = (decoded as jwt.JwtPayload).email
         }
@@ -141,6 +145,6 @@ export const checkUserRole = async (req: Request, res: Response) => {
       .json({ message: "User is authorized to access this page" })
   } catch (error) {
     console.log(error)
-    throw new Error("Something went wrong")
+    next(error)
   }
 }
