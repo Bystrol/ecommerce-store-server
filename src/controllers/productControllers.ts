@@ -1,10 +1,14 @@
-import { Request, Response } from "express"
+import { Request, Response, NextFunction } from "express"
 import jwt from "jsonwebtoken"
 import User from "../models/user"
 import Product from "../models/product"
 import { validationResult } from "express-validator"
 
-export const addNewProduct = async (req: Request, res: Response) => {
+export const addNewProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { name, description, imageUrl, price, isAvailable, category } = req.body
   const authToken = req.headers.authorization?.split(" ")[1] || ""
 
@@ -19,13 +23,17 @@ export const addNewProduct = async (req: Request, res: Response) => {
   try {
     let email
 
-    jwt.verify(authToken, `${process.env.JWT_SECRET_KEY}`, (err, decoded) => {
-      if (err) {
-        return res.status(401).json({ message: err.message })
-      } else {
-        email = (decoded as jwt.JwtPayload).email
+    jwt.verify(
+      authToken,
+      `${process.env.AUTH_TOKEN_SECRET}`,
+      (err, decoded) => {
+        if (err) {
+          throw new Error(err.message)
+        } else {
+          email = (decoded as jwt.JwtPayload).email
+        }
       }
-    })
+    )
 
     const user = await User.findOne({ email })
 
@@ -52,8 +60,9 @@ export const addNewProduct = async (req: Request, res: Response) => {
 
     await product.save()
 
-    return res.status(201).json({ message: "Product added successfully" })
+    res.status(201).json({ message: "Product added successfully" })
   } catch (error) {
     console.log(error)
+    next(error)
   }
 }
