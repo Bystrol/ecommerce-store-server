@@ -1,5 +1,8 @@
 import { Router } from "express"
-import { addNewProduct } from "../controllers/productControllers"
+import {
+  addNewProduct,
+  getProductsByCategory,
+} from "../controllers/productControllers"
 import { body } from "express-validator"
 
 const router = Router()
@@ -15,5 +18,7 @@ router.post(
   ],
   addNewProduct
 )
+
+router.get("/get/:category", getProductsByCategory)
 
 export default router
