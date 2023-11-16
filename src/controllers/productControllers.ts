@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express"
+import { validationResult } from "express-validator"
 import jwt from "jsonwebtoken"
 import User from "../models/user"
 import Product from "../models/product"
-import { validationResult } from "express-validator"
 
 export const addNewProduct = async (
   req: Request,
@@ -61,6 +61,23 @@ export const addNewProduct = async (
     await product.save()
 
     res.status(201).json({ message: "Product added successfully" })
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+}
+
+export const getProductsByCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { category } = req.params
+
+  try {
+    const products = await Product.find({ category })
+
+    res.status(200).json({ message: "Products fetched successfully", products })
   } catch (error) {
     console.log(error)
     next(error)
