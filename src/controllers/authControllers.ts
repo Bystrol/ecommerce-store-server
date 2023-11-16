@@ -77,7 +77,6 @@ export const loginUser = async (req: Request, res: Response) => {
     return res.status(200).json({
       message: "User successfully logged in",
       authToken,
-      userRole: user.role,
     })
   } catch (error) {
     console.log(error)
