@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 import cors from "cors"
 import authRoutes from "./routes/authRoutes"
 import productRoutes from "./routes/productRoutes"
+import checkoutRoutes from "./routes/checkoutRoutes"
 
 dotenv.config()
 
@@ -16,6 +17,7 @@ app.use(express.json())
 
 app.use("/auth", authRoutes)
 app.use("/products", productRoutes)
+app.use("/checkout", checkoutRoutes)
 
 mongoose
   .connect(DB_URI)
