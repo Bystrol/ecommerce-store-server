@@ -84,24 +84,6 @@ export const loginUser = async (req: Request, res: Response) => {
   }
 }
 
-export const checkUserAuth = (req: Request, res: Response) => {
-  const authorizationHeader = req.headers.authorization || ""
-  const authToken = authorizationHeader.split(" ")[1]
-
-  try {
-    jwt.verify(authToken, `${process.env.AUTH_TOKEN_SECRET}`, function (err) {
-      if (err) {
-        return res.status(401).json({ message: err.message })
-      } else {
-        return res.status(200).json({ message: "User is authenticated" })
-      }
-    })
-  } catch (error) {
-    console.log(error)
-    throw new Error("Something went wrong")
-  }
-}
-
 export const checkUserRole = async (
   req: Request,
   res: Response,
