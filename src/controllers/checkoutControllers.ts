@@ -14,7 +14,7 @@ type Product = {
 }
 
 export const createCheckoutSession = async (req: Request, res: Response) => {
-  const { currency, items } = req.body
+  const { currency, updatedItems } = req.body
   const authorizationHeader = req.headers.authorization || ""
   const authToken = authorizationHeader.split(" ")[1]
 
@@ -25,7 +25,7 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
       }
     })
 
-    const orderedProducts = items.map((item: Product) => {
+    const orderedProducts = updatedItems.map((item: Product) => {
       return {
         price_data: {
           currency,
