@@ -3,14 +3,25 @@ import jwt from "jsonwebtoken"
 import User from "../models/user"
 import Order from "../models/order"
 
+type Product = {
+  id: string
+  name: string
+  price: number
+  imageUrl: string
+  amount: number
+  size: string
+  color: string
+}
+
 export const addOrder = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const products = req.body
+  const { products, currency } = req.body
   const authorizationHeader = req.headers.authorization || ""
   const authToken = authorizationHeader.split(" ")[1]
+  console.log(products)
 
   let userEmail = ""
 
@@ -39,7 +50,7 @@ export const addOrder = async (
         .json({ message: "User with this email doesn't exist" })
     }
 
-    const updatedProducts = products.map((product: any) => {
+    const updatedProducts = products.map((product: Product) => {
       return {
         ...product,
         productId: product.id,
@@ -49,6 +60,7 @@ export const addOrder = async (
     const order = await Order.create({
       products: updatedProducts,
       userId: user.id,
+      currency,
     })
 
     await order.save()
