@@ -39,6 +39,10 @@ const orderSchema = new Schema({
     ref: "User",
     required: true,
   },
+  currency: {
+    type: String,
+    required: true,
+  },
 })
 
 export default model("Order", orderSchema)
