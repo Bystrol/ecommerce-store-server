@@ -46,8 +46,8 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
     const session = await stripe.checkout.sessions.create({
       line_items: orderedProducts,
       mode: "payment",
-      success_url: `${process.env.CLIENT_DOMAIN}?success=true`,
-      cancel_url: `${process.env.CLIENT_DOMAIN}?canceled=true`,
+      success_url: `${process.env.CLIENT_DOMAIN}/orders?success=true`,
+      cancel_url: `${process.env.CLIENT_DOMAIN}/orders?canceled=true`,
     })
 
     res.json({ url: session.url })
