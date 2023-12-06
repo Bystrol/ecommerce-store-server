@@ -8,7 +8,7 @@
     "build": "npx tsc",
     "dev": "nodemon src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "vercel-build": "echo build"
+    "vercel-build": "echo vercel-build"
   },
   "author": "Bystrol",
   "license": "ISC",
