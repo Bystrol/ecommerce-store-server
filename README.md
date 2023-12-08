@@ -7,7 +7,7 @@
 - [General Info](#general-information)
 - [Technologies Used](#technologies-used)
 - [Features](#features)
-- [Screenshots](#screenshots)
+- [Endpoints](#endpoints)
 - [Setup](#setup)
 - [Project Status](#project-status)
 - [Copyright](#copyright)
