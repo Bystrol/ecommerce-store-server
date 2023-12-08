@@ -38,14 +38,14 @@ This API was built for e-commerce clothing store so the users can authenticate a
 
 ## Endpoints
 
-- POST | /auth/register | Register new user
-- POST | /auth/login | Log in user
-- GET | /auth/check-role | Authorize user
-- POST | /products/add | Add new product
-- GET | /products/get/:category | Get products from specific category
-- PATCH | /orders/add | Add new order
-- GET | /orders/get | Get all user's orders
-- POST | /checkout/create-checkout-session | Create Stripe checkout session
+- POST /auth/register | Register new user
+- POST /auth/login | Log in user
+- GET /auth/check-role | Authorize user
+- POST /products/add | Add new product
+- GET /products/get/:category | Get products from specific category
+- PATCH /orders/add | Add new order
+- GET /orders/get | Get all user's orders
+- POST /checkout/create-checkout-session | Create Stripe checkout session
 
 ## Setup
 
