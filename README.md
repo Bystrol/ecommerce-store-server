@@ -9,7 +9,6 @@
 - [Features](#features)
 - [Endpoints](#endpoints)
 - [Setup](#setup)
-- [Project Status](#project-status)
 - [Copyright](#copyright)
 
 ## General Information
@@ -61,10 +60,6 @@ npm install
 ```bash
 npm run dev
 ```
-
-## Project Status
-
-Project is: _finished_.
 
 ## Copyright
 
