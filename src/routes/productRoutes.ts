@@ -15,6 +15,7 @@ router.post(
     body("imageUrl").isURL(),
     body("price").notEmpty(),
     body("category").notEmpty(),
+    body("type").notEmpty(),
   ],
   addNewProduct
 )
