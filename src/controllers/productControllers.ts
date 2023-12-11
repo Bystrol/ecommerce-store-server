@@ -9,7 +9,8 @@ export const addNewProduct = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { name, description, imageUrl, price, isAvailable, category } = req.body
+  const { name, description, imageUrl, price, isAvailable, category, type } =
+    req.body
   const authToken = req.headers.authorization?.split(" ")[1] || ""
 
   const errors = validationResult(req)
@@ -56,6 +57,7 @@ export const addNewProduct = async (
       price: parseFloat(price),
       isAvailable: /true/.test(isAvailable),
       category,
+      type,
     })
 
     await product.save()
